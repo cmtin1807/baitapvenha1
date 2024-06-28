@@ -47,4 +47,8 @@ public class StudentManager{
             return studentManager.get(studentManager.size() - 1);
         }
     }
+
+    public void clear() {
+        studentManager.clear();
+    }
 }
