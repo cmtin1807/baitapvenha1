@@ -25,14 +25,12 @@ public class ViewStudent {
             }
         } catch (FileNotFoundException e) {
             System.out.println("File not found: " + e.getMessage());
-        } catch (IOException e) {
-            System.out.println("Error reading file: " + e.getMessage());
-        } catch (NumberFormatException e) {
-            System.out.println("Error parsing data: " + e.getMessage());
+        } catch (IOException | NumberFormatException e) {
+            System.out.println("Error: " + e.getMessage());
         }
     }
 
-    public static void dislayMenu() {
+    public static void displayMenu() {
         System.out.println("Menu Student Manager ");
         System.out.println("1. Add Student");
         System.out.println("2. Update Student");
@@ -41,46 +39,42 @@ public class ViewStudent {
         System.out.println("5. Import students from file");
         System.out.println("6. Export students into file");
         System.out.println("0. Exit");
-        System.out.println("Enter your choice");
+        System.out.println("Enter your choice:");
     }
 
     public static void addStudentInStudentManager(File file, StudentManager studentManager, Scanner scanner) {
         try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file, true))) {
-            System.out.println("Enter First Name Student: ");
-            String firstName = scanner.next();
-            System.out.println("Enter Last Name Student: ");
-            String lastName = scanner.next();
-            System.out.println("Enter Age Student: ");
+            System.out.print("Enter First Name Student: ");
+            String firstName = scanner.nextLine();
+            System.out.print("Enter Last Name Student: ");
+            String lastName = scanner.nextLine();
+            System.out.print("Enter Age Student: ");
             int age = scanner.nextInt();
             scanner.nextLine();
-
 
             int id = studentManager.idLast() + 1;
             String data = "\n" + id + ", " + firstName + ", " + lastName + ", " + age;
             bufferedWriter.write(data);
 
-
             ArrayList<Student> students = readStudentsFromFile(file);
             studentManager.clear();
-            for (Student student : students) {
-                studentManager.addStudent(student);
-            }
-        } catch (InputMismatchException e) {
-            System.out.println("Invalid input: " + e.getMessage());
-        } catch (IOException e) {
-            System.out.println("Error writing to file: " + e.getMessage());
+            students.forEach(studentManager::addStudent);
+        } catch (InputMismatchException | IOException e) {
+            System.out.println("Error: " + e.getMessage());
         }
     }
 
     public static void updateStudentInStudentManager(Scanner scanner, File file) {
         try {
-            System.out.println("Enter Id Update");
+            System.out.print("Enter Id Update: ");
             int idUpdate = scanner.nextInt();
-            System.out.println("Enter First Name Student: ");
-            String firstNameUpdate = scanner.next();
-            System.out.println("Enter Last Name Student: ");
-            String lastNameUpdate = scanner.next();
-            System.out.println("Enter Age Student: ");
+            scanner.nextLine();
+
+            System.out.print("Enter First Name Student: ");
+            String firstNameUpdate = scanner.nextLine();
+            System.out.print("Enter Last Name Student: ");
+            String lastNameUpdate = scanner.nextLine();
+            System.out.print("Enter Age Student: ");
             int ageUpdate = scanner.nextInt();
             scanner.nextLine();
 
@@ -94,50 +88,50 @@ public class ViewStudent {
                 }
             }
             writeStudentsToFile(studentsUpdate, file);
-        } catch (InputMismatchException e) {
-            System.out.println("Invalid input: " + e.getMessage());
-        } catch (IOException e) {
-            System.out.println("Error updating student: " + e.getMessage());
+        } catch (InputMismatchException | IOException e) {
+            System.out.println("Error: " + e.getMessage());
         }
     }
 
     public static void removeStudentInStudentManager(Scanner scanner, File file) {
         try {
-            System.out.println("Enter Id Remove");
+            System.out.print("Enter Id Remove: ");
             int idRemove = scanner.nextInt();
             scanner.nextLine();
 
             ArrayList<Student> studentsRemove = readStudentsFromFile(file);
             studentsRemove.removeIf(student -> student.getId() == idRemove);
             writeStudentsToFile(studentsRemove, file);
-        } catch (InputMismatchException e) {
-            System.out.println("Invalid input: " + e.getMessage());
-        } catch (IOException e) {
-            System.out.println("Error removing student: " + e.getMessage());
+        } catch (InputMismatchException | IOException e) {
+            System.out.println("Error: " + e.getMessage());
         }
     }
 
-    public static void diplayAllStudentInStudentManager(File file, StudentManager studentManager) {
+    public static void displayAllStudentInStudentManager(File file, StudentManager studentManager) {
         try {
             ArrayList<Student> students = readStudentsFromFile(file);
+            studentManager.clear();
             for (Student student : students) {
                 studentManager.addStudent(student);
+            }
+            for (Student student : students) {
                 System.out.println(student);
             }
+
         } catch (IOException e) {
-            System.out.println("Error reading students: " + e.getMessage());
+            System.out.println("Error: " + e.getMessage());
         }
     }
 
     public static void exportFile(Scanner scanner, File file) {
         try {
-            System.out.println("Enter Export students into file: ");
+            System.out.print("Enter Export students into file: ");
             String fileExport = scanner.nextLine();
             File exportFile = new File(fileExport);
             ArrayList<Student> students = readStudentsFromFile(file);
             writeStudentsToFile(students, exportFile);
         } catch (IOException e) {
-            System.out.println("Error exporting file: " + e.getMessage());
+            System.out.println("Error: " + e.getMessage());
         }
     }
 

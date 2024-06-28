@@ -20,7 +20,7 @@ public class Main {
             ViewStudent.printAllStudentBegin(file, studentManager);
             boolean menu = true;
             while (menu) {
-                ViewStudent.dislayMenu();
+                ViewStudent.displayMenu();
                 int choice = Integer.parseInt(scanner.nextLine());
                 switch (choice) {
                     case ADD_STUDENT:
@@ -33,7 +33,7 @@ public class Main {
                         ViewStudent.removeStudentInStudentManager(scanner, file);
                         break;
                     case DISPLAY_STUDENT:
-                        ViewStudent.diplayAllStudentInStudentManager(file, studentManager);
+                        ViewStudent.displayAllStudentInStudentManager(file, studentManager);
                         break;
                     case IMPORT_FILE:
                         menu = false;
