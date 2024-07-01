@@ -55,15 +55,18 @@ public class ViewStudent {
             int id = studentManager.idLast() + 1;
             String data = "\n" + id + ", " + firstName + ", " + lastName + ", " + age;
             bufferedWriter.write(data);
+            bufferedWriter.close();
+
 
             ArrayList<Student> students = readStudentsFromFile(file);
             studentManager.clear();
             students.forEach(studentManager::addStudent);
+
+            System.out.println("Student added successfully.");
         } catch (InputMismatchException | IOException e) {
             System.out.println("Error: " + e.getMessage());
         }
     }
-
     public static void updateStudentInStudentManager(Scanner scanner, File file) {
         try {
             System.out.print("Enter Id Update: ");
@@ -98,7 +101,6 @@ public class ViewStudent {
             System.out.print("Enter Id Remove: ");
             int idRemove = scanner.nextInt();
             scanner.nextLine();
-
             ArrayList<Student> studentsRemove = readStudentsFromFile(file);
             studentsRemove.removeIf(student -> student.getId() == idRemove);
             writeStudentsToFile(studentsRemove, file);
